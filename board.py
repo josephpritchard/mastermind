@@ -29,7 +29,7 @@ print(f"Guess 1 is {g}")
 class Solver:
     def __init__(self):
         self.Count = int(0)
-        self.InSolution = []
+        self.InSolution = ["", "", "", ""]
         self.NotInSolution = []
         self.Solved = bool(False)
         self.Points = 10 - self.Count
@@ -48,23 +48,40 @@ class Solver:
             case _: print("Error with right_wrong method match case.")
 
 solver = Solver()
+solved = [ "", "", "", "" ]
 
 def compare(num):
     solver.Count = num
     for i in range(4):
-        print(i)
         if g[i] == solution[i]:
             solver.right_wrong(i, g[i], "Right")
+            solved[i] = g[i]
+            solver.InSolution[i] = g[i]
         if g[i] != solution[i]:
             solver.right_wrong(i, g[i], "Wrong")
-        if g[i] in solution:
-            solver.InSolution.append(g[i])
-        else:
-            solver.NotInSolution.append(g[i])
+            for j in range(4):
+                if g[i] == solution[j]:
+                    if g[i] != solved[j]:
+                        if g[i] != solver.InSolution[j]:
+                            solver.InSolution[j] = g[i]
+                            break
+                        else:
+                            if g[i] not in solver.NotInSolution:
+                                solver.NotInSolution.append(g[i])
+                else:
+                    if g[i] not in solver.NotInSolution:
+                        if g[i] not in solution:
+                            solver.NotInSolution.append(g[i])
+
     print(solver.A)
     print(solver.B)
     print(solver.C)
     print(solver.D)
-    print(solver.InSolution)
-    print(solver.NotInSolution)
+    print(f"InSolution: {solver.InSolution}")
+    print(f"NotInSolution: {solver.NotInSolution}")
+    print(f"Solved list is: {solved}")
+    for item in solved:
+        if item in solver.InSolution:
+            solver.InSolution.remove(item)
+    print(f"Unguessed colors are: {solver.InSolution}")
 compare(1)
