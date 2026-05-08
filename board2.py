@@ -22,15 +22,15 @@ for i in range(len(c)):
 
 os.system('clear')
 print("= = = = = = = = = = =")
-time.sleep(1)
+# time.sleep(1)
 print("= = W E L C O M E = =")
-time.sleep(1)
+# time.sleep(1)
 print("= = = = T   O = = = =")
-time.sleep(1)
+# time.sleep(1)
 print(" M A S T E R M I N D")
-time.sleep(1)
+# time.sleep(1)
 print("= = S O L  V E R = =")
-time.sleep(1)
+# time.sleep(1)
 print("= = = = = = = = = = =")
 time.sleep(2)
 
@@ -77,11 +77,16 @@ def guess(solution, guess):
 
 pool      = all_codes
 pool_neg  = []
-attempts = 0
+attempts  = 0
 
 # Compare guess/all_codes
 # Add all matching results to pool
 def evaluate(solution, guess_list):
+    4b = [],    4w = [],       
+    3b = [],    3w = [],    3w1b = []
+    2b = [],    2w = [],    2w1b = [],      2w2b = []
+    1b = [],    1w = [],    1w1b = [],      0w0b = []
+
     for code in all_codes:
         g = guess(solution, guess_list)
         h = guess(code, guess_list)
