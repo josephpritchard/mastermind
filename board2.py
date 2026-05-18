@@ -82,11 +82,6 @@ attempts  = 0
 # Compare guess/all_codes
 # Add all matching results to pool
 def evaluate(solution, guess_list):
-    4b = [],    4w = [],       
-    3b = [],    3w = [],    3w1b = []
-    2b = [],    2w = [],    2w1b = [],      2w2b = []
-    1b = [],    1w = [],    1w1b = [],      0w0b = []
-
     for code in all_codes:
         g = guess(solution, guess_list)
         h = guess(code, guess_list)
@@ -98,6 +93,34 @@ def evaluate(solution, guess_list):
         return g[0], random.choice(pool_neg)
     else:
         return g[0], random.choice(pool)
+
+
+# Updated evaluate function
+def evaluate2(guess1):
+    bbbb = bbb = bb = b = 0
+    wwww = www = ww = w = 0
+    bbww = bwww = nobw = 0
+    bbw = bww = bw = 0
+    for p in pool:
+        g = guess(p, guess1)
+        match g:
+            case (4, 0): bbbb += 1
+            case (3, 0): bbb += 1
+            case (2, 0): bb += 1
+            case (1, 0): b += 1
+            case (0, 4): wwww += 1
+            case (0, 3): www += 1
+            case (0, 2): ww += 1
+            case (0, 1): w += 1
+            case (2, 2): bbww += 1
+            case (1, 3): bwww += 1
+            case (0, 0): nobw += 1
+            case (2, 1): bbw += 1
+            case (1, 2): bww += 1
+            case (1, 1): bw += 1
+    print(f"{bbbb}\n{bbb}\n{bb}\n{b}\n{wwww}\n{www}\n{ww}\n{w}\n{bbww}\n{bwww}\n{nobw}\n{bbw}\n{bww}\b{bw}")
+
+
 
 first_guess     = [ c[0], c[0], c[1], c[1] ]
 second_guess    = [ c[2], c[2], c[3], c[3] ]
@@ -113,6 +136,7 @@ evals = [
          None, None, None, None, None, None 
          ]
 
+evaluate2(first_guess)
 
 print(f"Starting pool is: {len(all_codes)}")
 print(f"Guess #1 is: {first_guess}")
