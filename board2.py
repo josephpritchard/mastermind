@@ -81,11 +81,11 @@ attempts  = 0
 
 # Compare guess/all_codes
 # Add all matching results to pool
-def evaluate(solution, guess_list):
+def evaluate(solution, guess_var):
     for code in all_codes:
-        g = guess(solution, guess_list)
-        h = guess(code, guess_list)
-        if h[0] != g[0]:
+        g = guess(solution, guess_var)
+        h = guess(code, guess_var)
+        if h != g:
             pool.remove(code)
             pool_neg.append(code)
     print(f"Pool length is: {len(pool)}")
@@ -96,29 +96,51 @@ def evaluate(solution, guess_list):
 
 
 # Updated evaluate function
-def evaluate2(guess1):
-    bbbb = bbb = bb = b = 0
-    wwww = www = ww = w = 0
-    bbww = bwww = nobw = 0
-    bbw = bww = bw = 0
-    for p in pool:
-        g = guess(p, guess1)
-        match g:
-            case (4, 0): bbbb += 1
-            case (3, 0): bbb += 1
-            case (2, 0): bb += 1
-            case (1, 0): b += 1
-            case (0, 4): wwww += 1
-            case (0, 3): www += 1
-            case (0, 2): ww += 1
-            case (0, 1): w += 1
-            case (2, 2): bbww += 1
-            case (1, 3): bwww += 1
-            case (0, 0): nobw += 1
-            case (2, 1): bbw += 1
-            case (1, 2): bww += 1
-            case (1, 1): bw += 1
-    print(f"{bbbb}\n{bbb}\n{bb}\n{b}\n{wwww}\n{www}\n{ww}\n{w}\n{bbww}\n{bwww}\n{nobw}\n{bbw}\n{bww}\b{bw}")
+def evaluate2(solution, guess1):
+    # Enumerate (and clear) all possible peg outcomes
+    buckets = dict(bbbb = 0, bbb = 0, bb = 0, b = 0, wwww = 0, www = 0, ww = 0, w = 0, bbww = 0, bwww = 0, nobw = 0, bbw = 0, bww = 0, bw = 0)
+    largest_bucket = 0
+
+    # Assess guess and shrink pool size
+    for code in all_codes:
+        g = guess(solution, guess1)
+        h = guess(code, guess1)
+        if h != g:
+            pool.remove(code)
+            pool_neg.append(code)
+
+    def evaluate2a():
+        print("Quarter pool is: ", len(pool) / 4)
+        if attempts <= 2:
+            q = random.choice(pool_neg)
+        else:
+            q = random.choice(pool)
+
+        for p in pool:
+            g = guess(q, p)
+            match g:
+                case (4, 0): buckets['bbbb'] += 1
+                case (3, 0): buckets['bbb'] += 1
+                case (2, 0): buckets['bb'] += 1
+                case (1, 0): buckets['b'] += 1
+                case (0, 4): buckets['wwww'] += 1
+                case (0, 3): buckets['www'] += 1
+                case (0, 2): buckets['ww'] += 1
+                case (0, 1): buckets['w'] += 1
+                case (2, 2): buckets['bbww'] += 1
+                case (1, 3): buckets['bwww'] += 1
+                case (0, 0): buckets['nobw'] += 1
+                case (2, 1): buckets['bbw'] += 1
+                case (1, 2): buckets['bww'] += 1
+                case (1, 1): buckets['bw'] += 1
+
+    evaluate2a()
+    for value in buckets.values():
+        if value > largest_bucket:
+            largest_bucket = value
+    print(f"Largest bucket is: {largest_bucket}")
+    if largest_bucket > len(pool) / 4:
+        evaluate2a()
 
 
 
@@ -136,7 +158,8 @@ evals = [
          None, None, None, None, None, None 
          ]
 
-evaluate2(first_guess)
+
+evaluate2(solution, first_guess)
 
 print(f"Starting pool is: {len(all_codes)}")
 print(f"Guess #1 is: {first_guess}")
