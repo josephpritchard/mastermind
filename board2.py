@@ -97,9 +97,15 @@ def evaluate(solution, guess_var):
 
 # Updated evaluate function
 def evaluate2(solution, guess1):
-    # Enumerate (and clear) all possible peg outcomes
-    buckets = dict(bbbb = 0, bbb = 0, bb = 0, b = 0, wwww = 0, www = 0, ww = 0, w = 0, bbww = 0, bwww = 0, nobw = 0, bbw = 0, bww = 0, bw = 0)
     largest_bucket = 0
+    buckets = {}
+    largest_bucket_temp = 0
+    # Enumerate (and clear) all possible peg outcomes
+    def reset_dict():
+        buckets = dict(bbbb = 0, bbb = 0, bb = 0, b = 0, wwww = 0, www = 0, ww = 0, w = 0, bbww = 0, bwww = 0, nobw = 0, bbw = 0, bww = 0, bw = 0)
+        largest_bucket_temp = 0
+
+    reset_dict()
 
     # Assess guess and shrink pool size
     for code in all_codes:
@@ -136,13 +142,12 @@ def evaluate2(solution, guess1):
 
     evaluate2a()
     for value in buckets.values():
-        if value > largest_bucket:
+        if value > largest_bucket_temp:
             largest_bucket = value
     print(f"Largest bucket is: {largest_bucket}")
-    if largest_bucket > len(pool) / 4:
+    if largest_bucket > len(pool) / 8:
+        reset_dict()
         evaluate2a()
-
-
 
 first_guess     = [ c[0], c[0], c[1], c[1] ]
 second_guess    = [ c[2], c[2], c[3], c[3] ]
