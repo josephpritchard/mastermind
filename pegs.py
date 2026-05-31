@@ -1,5 +1,5 @@
 # Function to compare guess/user_sol and return peg counts
-def get_pegs(user_sol, guess):
+def get(user_sol, guess):
     black_pegs = 0
     white_pegs = 0
 
@@ -21,6 +21,22 @@ def get_pegs(user_sol, guess):
                     white_pegs += 1
                     g_marked[i] = s_marked[j] = "w"
                     break
-
-    # return peg counts
-    return black_pegs, white_pegs
+    # Make pegs a list and match to bucket
+    pegs = [black_pegs, white_pegs]
+    bucket = ''
+    match pegs:
+            case (4, 0): bucket = 'bbbb'
+            case (3, 0): bucket = 'bbb'
+            case (2, 0): bucket = 'bb'
+            case (1, 0): bucket = 'b'
+            case (0, 4): bucket = 'wwww'
+            case (0, 3): bucket = 'www'
+            case (0, 2): bucket = 'ww'
+            case (0, 1): bucket = 'w'
+            case (2, 2): bucket = 'bbww'
+            case (1, 3): bucket = 'bwww'
+            case (0, 0): bucket = 'nobw'
+            case (2, 1): bucket = 'bbw'
+            case (1, 2): bucket = 'bww'
+            case (1, 1): bucket = 'bw'
+    return bucket

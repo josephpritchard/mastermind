@@ -62,4 +62,4 @@ for i in range(4):
 clear.clear_screen()
 print(f"You entered: {user_sol}")
 
-guess1 = [ c[0], c[0], c[1], c[1] ]
+# guess1 = [ c[0], c[0], c[1], c[1] ]
