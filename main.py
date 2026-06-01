@@ -5,7 +5,8 @@ import pool
 import minimax as mm
 import random
 
-print("\nColor choices were:", c)
+
+print("\nColor choices:\n", c)
 print("\nThere are {} total possible solutions.\n".format(len(all_codes)))
 
 # Function to solve
@@ -22,6 +23,7 @@ def solve(pool0):
         print("Solved in {} attempts!".format(attempts))
     else:
         print("Guess {}: {}".format(attempts, mm1['code']))
+        print("Possible solutions left: ", len(pool_master), "\n")
 
 # Get random code for first guess
 r = random.randint(0, len(all_codes) - 1)
@@ -29,6 +31,7 @@ print("Guess 1:", all_codes[r])
 
 # Run first guess outside of while loop
 pool_master = pool.get(all_codes, all_codes[r])
+print("Possible solutions left: ", len(pool_master), "\n")
 attempts = 1
 
 # While loop that uses solve function to solve
